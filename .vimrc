@@ -13,44 +13,6 @@ filetype plugin on
 
 " <<
 
-" >>
-" vim 自身（非插件）快捷键
-
-" 定义快捷键到行首和行尾
-nmap LB 0
-nmap LE $
-
-" 设置快捷键将选中文本块复制至系统剪贴板
-vnoremap <Leader>y "+y
-" 设置快捷键将系统剪贴板内容粘贴至vim
-nmap <Leader>p "+p
-
-" 定义快捷键关闭当前分割窗口
-nmap <Leader>q :q<CR>
-nmap <Leader>q! :q!<CR>
-" 定义快捷键保存当前窗口内容
-nmap <Leader>w :w<CR>
-" 定义快捷键保存所有窗口内容并退出 vim
-nmap <Leader>WQ :wa<CR>:q<CR>
-" 不做任何保存，直接退出 vim
-nmap <Leader>Q :qa!<CR>
-
-" 设置快捷键遍历子窗口
-" 依次遍历
-nnoremap nw <C-W><C-W>
-" 跳转至右方的窗口
-nnoremap <Leader>lw <C-W>l
-" 跳转至方的窗口
-nnoremap <Leader>hw <C-W>h
-" 跳转至上方的子窗口
-nnoremap <Leader>kw <C-W>k
-" 跳转至下方的子窗口
-nnoremap <Leader>jw <C-W>j
-
-" 定义快捷键在结对符之间跳转
-nmap <Leader>M %
-
-" <<
 
 " 让配置变更立即生效
 "autocmd BufWritePost $MYVIMRC source $MYVIMRC
@@ -90,7 +52,7 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'derekwyatt/vim-fswitch'
 Plugin 'kshenoy/vim-signature'
 Plugin 'vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines'
-Plugin 'majutsushi/tagbar'
+"Plugin 'majutsushi/tagbar'
 Plugin 'vim-scripts/indexer.tar.gz'
 Plugin 'vim-scripts/DfrankUtil'
 Plugin 'vim-scripts/vimprj'
@@ -99,6 +61,7 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-scripts/DrawIt'
 Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'derekwyatt/vim-protodef'
 Plugin 'scrooloose/nerdtree'
@@ -114,7 +77,7 @@ Plugin 'fatih/vim-go'
 "Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'edkolev/tmuxline.vim'
 "Plugin 'tacahiroy/ctrlp-funky'
-Plugin 'ludovicchabant/vim-gutentags'
+
 Plugin 'w0rp/ale'
 Plugin 'Yggdroot/LeaderF'
 Plugin 'justinmk/vim-dirvish'
@@ -125,6 +88,9 @@ Plugin 'kana/vim-textobj-syntax'
 Plugin 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java','go','python'] }
 Plugin 'sgur/vim-textobj-parameter'
 Plugin 'krisajenkins/vim-projectlocal'
+Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'skywind3000/gutentags_plus'
+Plugin 'skywind3000/vim-preview'
 " 插件列表结束
 call vundle#end()
 filetype plugin indent on
@@ -223,36 +189,14 @@ set shiftwidth=4
 " 让 vim 把连续数量的空格视为一个制表符
 set softtabstop=4
 
-" 缩进可视化插件 Indent Guides
-" 随 vim 自启动
-"let g:indent_guides_enable_on_vim_startup=1
-" 从第二层开始可视化显示缩进
-"let g:indent_guides_start_level=2
-" 色块宽度
-"let g:indent_guides_guide_size=1
-" 快捷键 i 开/关缩进可视化
-"nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 
-" <<
 
-" >>
-" 代码折叠
 
-" 基于缩进或语法进行代码折叠
-"set foldmethod=indent
 set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
 
-" <<
 
-" >>
-" 接口与实现快速切换
-
-" *.cpp 和 *.h 间切换
-nmap <silent> <Leader>sw :FSHere<cr>
-
-" <<
 
 " >>
 " 代码收藏
@@ -284,64 +228,6 @@ let g:SignatureMap = {
 
 " <<
 
-" >>
-" 标签列表
-
-" 设置 tagbar 子窗口的位置出现在主编辑区的左边
-let tagbar_left=1
-" 设置显示／隐藏标签列表子窗口的快捷键。速记：identifier list by tag
-nnoremap <Leader>ilt :TagbarToggle<CR>
-" 设置标签子窗口的宽度
-let tagbar_width=32
-" tagbar 子窗口中不显示冗余帮助信息
-let g:tagbar_compact=1
-" 设置 ctags 对哪些代码标识符生成标签
-let g:tagbar_type_cpp = {
-     \ 'ctagstype' : 'c++',
-     \ 'kinds'     : [
-         \ 'c:classes:0:1',
-         \ 'd:macros:0:1',
-         \ 'e:enumerators:0:0', 
-         \ 'f:functions:0:1',
-         \ 'g:enumeration:0:1',
-         \ 'l:local:0:1',
-         \ 'm:members:0:1',
-         \ 'n:namespaces:0:1',
-         \ 'p:functions_prototypes:0:1',
-         \ 's:structs:0:1',
-         \ 't:typedefs:0:1',
-         \ 'u:unions:0:1',
-         \ 'v:global:0:1',
-         \ 'x:external:0:1'
-     \ ],
-     \ 'sro'        : '::',
-     \ 'kind2scope' : {
-         \ 'g' : 'enum',
-         \ 'n' : 'namespace',
-         \ 'c' : 'class',
-         \ 's' : 'struct',
-         \ 'u' : 'union'
-     \ },
-     \ 'scope2kind' : {
-         \ 'enum'      : 'g',
-         \ 'namespace' : 'n',
-         \ 'class'     : 'c',
-         \ 'struct'    : 's',
-         \ 'union'     : 'u'
-     \ }
-\ }
-
-" <<
-
-" >>
-" 代码导航
- 
-" 基于标签的代码导航
-
-" 设置插件 indexer 调用 ctags 的参数
-" 默认 --c++-kinds=+p+l，重新设置为 --c++-kinds=+l+p+x+c+d+e+f+g+m+n+s+t+u+v
-" 默认 --fields=+iaS 不满足 YCM 要求，需改为 --fields=+iaSl
-"let g:indexer_ctagsCommandLineOptions="--c++-kinds=+l+p+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
 
 " 正向遍历同名标签
 nmap <Leader>tn :tnext<CR>
@@ -458,7 +344,7 @@ let g:ycm_key_invoke_completion = '<c-a>'
 set completeopt=menu,menuone
 
 
-"set tags=./.tags;,.tags
+set tags=./.tags;,.tags
 
 "noremap <c-z> <NOP>
 
@@ -603,23 +489,45 @@ let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 
 " gutentags 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+
+let $GTAGSLABEL = 'native-pygments'
+let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
+
 "  
 "  " 所生成的数据文件的名称
 let g:gutentags_ctags_tagfile = '.tags'
-"   
-"   " 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-"    
-"    " 配置 ctags 的参数
+
+let g:gutentags_modules = []
+if executable('ctags')
+    let g:gutentags_modules += ['ctags']
+endif
+if executable('gtags-cscope') && executable('gtags')
+    let g:gutentags_modules += ['gtags_cscope']
+endif
+" 将自动生成的 ctags/gtags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
+let g:gutentags_cache_dir = expand('~/cache/tags')
+"
+" " 配置 ctags 的参数
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+"
+" " 如果使用 universal ctags 需要增加下面一行
+"let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+"
+" " 禁用 gutentags 自动加载 gtags 数据库的行为
+let g:gutentags_auto_add_gtags_cscope = 0
+"   
+"   " 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
+"let s:vim_tags = expand('~/.cache/tags')
+"let g:gutentags_cache_dir = s:vim_tags
+"    
+"    " 配置 ctags 的参数
 "     
 "     " 检测 ~/.cache/tags 不存在就新建
-if !isdirectory(s:vim_tags)
-    silent! call mkdir(s:vim_tags, 'p')
-endif
+"if !isdirectory(s:vim_tags)
+"    silent! call mkdir(s:vim_tags, 'p')
+"endif
 
 let g:ale_linters_explicit = 1
 let g:ale_completion_delay = 500
@@ -629,7 +537,7 @@ let g:ale_echo_msg_format = '[%linter%] %code: %%s'
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:airline#extensions#ale#enabled = 1
-let g:ale_linters = {'c':['clang']}
+let g:ale_linters = {'c':['clang', 'clangtidy', 'flawfinder' ]}
  
 let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
 let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
@@ -640,12 +548,6 @@ let g:ale_sign_warning = '⚡'
 
 "let g:ale_sign_error = "\ue009\ue009"
 
-let g:Lf_ShortcutF = '<c-p>'
-let g:Lf_ShortcutB = '<m-n>'
-noremap <c-n> :LeaderfMru<cr>
-noremap <leader>f :LeaderfFunction!<cr>
-noremap <leader>n :LeaderfBuffer<cr>
-noremap <m-m> :LeaderfTag<cr>
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
  
 let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
@@ -666,4 +568,79 @@ let g:Lf_NormalMap = {
     \ "Colorscheme":    [["<ESC>", ':exec g:Lf_py "colorschemeExplManager.quit()"<CR>']],
     \ }
 
+let g:echodoc_enable_at_startup = 1
 set noshowmode
+let g:gutentags_define_advanced_commands = 1
+
+" >>
+" vim 自身（非插件）快捷键
+
+" 定义快捷键到行首和行尾
+nmap LB 0
+nmap LE $
+
+" 设置快捷键将选中文本块复制至系统剪贴板
+vnoremap <Leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至vim
+nmap <Leader>p "+p
+
+" 定义快捷键关闭当前分割窗口
+nmap <Leader>q :q<CR>
+nmap <Leader>q! :q!<CR>
+" 定义快捷键保存当前窗口内容
+nmap <Leader>w :w<CR>
+" 定义快捷键保存所有窗口内容并退出 vim
+nmap <Leader>WQ :wa<CR>:q<CR>
+" 不做任何保存，直接退出 vim
+nmap <Leader>Q :qa!<CR>
+
+" 设置快捷键遍历子窗口
+" 依次遍历
+nnoremap nw <C-W><C-W>
+" 跳转至右方的窗口
+nnoremap <Leader>lw <C-W>l
+" 跳转至方的窗口
+nnoremap <Leader>hw <C-W>h
+" 跳转至上方的子窗口
+nnoremap <Leader>kw <C-W>k
+" 跳转至下方的子窗口
+nnoremap <Leader>jw <C-W>j
+
+" 定义快捷键在结对符之间跳转
+nmap <Leader>M %
+
+" <<
+
+noremap <F3> :PreviewTag<cr>
+inoremap <F3> <c-\><c-o>:PreviewTag<cr>
+noremap <F4> :PreviewSignature!<cr>
+inoremap <F4> <c-\><c-o>:PreviewSignature!<cr>
+noremap <m-u> :PreviewScroll -1<cr>
+noremap <m-d> :PreviewScroll +1<cr>
+inoremap <m-u> <c-\><c-o>:PreviewScroll -1<cr>
+inoremap <m-d> <c-\><c-o>:PreviewScroll +1<cr>
+autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
+autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
+"<leader>cs Find symbol (reference) under cursor
+""<leader>cg    Find symbol definition under cursor
+"<leader>cd Functions called by this function
+""<leader>cc    Functions calling this function
+"<leader>ct Find text string under cursor
+""<leader>ce    Find egrep pattern under cursor
+"<leader>cf Find file name under cursor
+""<leader>ci    Find files #including the file name under cursor
+"<leader>ca Find places where current symbol is assigned
+
+let g:Lf_ShortcutF = '<c-p>'
+let g:Lf_ShortcutB = '<m-n>'
+noremap <c-n> :LeaderfMru<cr>
+noremap <leader>f :LeaderfFunction!<cr>
+noremap <leader>n :LeaderfBuffer<cr>
+noremap <m-m> :LeaderfTag<cr>
+" >>
+" 接口与实现快速切换
+
+" *.cpp 和 *.h 间切换
+nmap <silent> <Leader>sw :FSHere<cr>
+
+" <<
